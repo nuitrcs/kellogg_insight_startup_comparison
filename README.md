@@ -1,0 +1,1 @@
+# kellogg_insight_startup_comparison
