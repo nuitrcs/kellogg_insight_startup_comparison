@@ -243,7 +243,6 @@ function round(value, decimals) {
 }
 
 tilde.showInput = function(d,i) {
-	console.log(d3.event)
 	var me = this
 	if (this.className.baseVal === 'tilde-rect'){
 		var this_id = me.id.substring(5)
@@ -269,8 +268,12 @@ tilde.focus = function(e) {
 	this.value = stored
 }
 
-tilde.blur = function(e) {
+tilde.blur = function(e,element) {
 	var me = this
+   if (element) {
+      me = element
+   }
+
 	d3.select(me)
 		.style('display','none')
 
@@ -318,7 +321,14 @@ tilde.change = function(e,element) {
 		.html(botval)
 	d3.select('#value')
 		.html(result)
+}
 
+tilde.parseEnter = function(e) {
+   var me = this
+   var key = e.which || e.keyCode;
+   if (key === 13){
+      tilde.blur(null,me)
+   }
 }
 
 tilde['top'] = d3.select('#input-top')
@@ -332,10 +342,12 @@ tilde['top'].node().onfocus = tilde.focus
 tilde['bottom'].node().onfocus = tilde.focus
 tilde['top'].node().onblur = tilde.blur
 tilde['bottom'].node().onblur = tilde.blur
-tilde['top'].node().onmouseout = tilde.blur
-tilde['bottom'].node().onmouseout = tilde.blur
+//tilde['top'].node().onmouseout = tilde.blur
+//tilde['bottom'].node().onmouseout = tilde.blur
 tilde['top'].node().onchange = tilde.change
 tilde['bottom'].node().onchange = tilde.change
+tilde['top'].node().onkeyup = tilde.parseEnter
+tilde['bottom'].node().onkeyup = tilde.parseEnter
 
 d3.selectAll('.tilde-rect, .tilde-input')
 	.on('click',tilde.showInput)
