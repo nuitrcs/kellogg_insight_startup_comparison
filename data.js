@@ -306,23 +306,47 @@ tilde.change = function(e,element) {
 	if (value_test > 65) {
 		me.value = '65'
 	}
+   function parseNumbers(input,target,spacing_bool) {
+      var output = input.toString()
+      if (output.length === 1) {
+         output += '.0'
+      }
+      if (output.length > 3 || output.length === 2) {
+         var spacing = ''
+         if (spacing_bool) {
+            spacing = "<tspan style='opacity:0'>.</tspan>"
+         }
+         if (target) {
+            output = spacing + Math.round(tilde.data[topval][target]/tilde.data[botval][target])
+         }
+         output = spacing + Math.round(tilde.data[topval]['proportion'])
+      }
+      return output
+   }
    me.setAttribute('value',me.value)
 	var topval = tilde['top'].node().value
 	var botval = tilde['bottom'].node().value
 	var result = round(tilde.data[topval].success/tilde.data[botval].success,1)
-	result = result.toString()
-	if (result.length === 1) {
-		result += '.0'
-	}
-	if (result.length > 3 || result.length === 2) {
-		result = "<tspan style='opacity:0'>.</tspan>"+ Math.round(tilde.data[topval].success/tilde.data[botval].success)
-	}
-	d3.select('#top')
+   result = parseNumbers(result,'success',true)
+   var top_result = round(tilde.data[topval].top/tilde.data[botval].top,1)
+   top_result = parseNumbers(top_result,'top')
+   var top_prop = round(tilde.data[topval].proportion*100,1)
+   top_prop = parseNumbers(top_prop)
+   var bot_prop = round(tilde.data[botval].proportion*100,1)
+   top_prop = parseNumbers(top_prop)
+   
+	d3.selectAll('#top, .top-age')
 		.html(topval)
-	d3.select('#bottom')
+	d3.selectAll('#bottom, .bottom-age')
 		.html(botval)
 	d3.select('#value')
 		.html(result)
+   d3.select('#top-value')
+      .html(top_result)
+   d3.select('#top-prop')
+      .html(top_prop)
+   d3.select('#bottom-prop')
+      .html(bot_prop)
 }
 
 tilde.parseEnter = function(e) {
