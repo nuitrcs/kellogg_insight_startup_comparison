@@ -259,7 +259,7 @@ tilde.showInput = function(d,i) {
 	tilde[me.id + '-shadow']
 		.transition()
 		.duration(100)
-		.style('opacity',0.5)
+		.style('opacity',0.7)
 }
 
 tilde.focus = function(e) {
@@ -299,12 +299,14 @@ tilde.change = function(e,element) {
 	if (element) {
 		me = element
 	}
-	if (+me.value < 20) {
+   var value_test = +me.value
+	if (value_test < 20) {
 		me.value = '20'
 	}
-	if (+me.value > 65) {
+	if (value_test > 65) {
 		me.value = '65'
 	}
+   me.setAttribute('value',me.value)
 	var topval = tilde['top'].node().value
 	var botval = tilde['bottom'].node().value
 	var result = round(tilde.data[topval].success/tilde.data[botval].success,1)
@@ -342,12 +344,14 @@ tilde['top'].node().onfocus = tilde.focus
 tilde['bottom'].node().onfocus = tilde.focus
 tilde['top'].node().onblur = tilde.blur
 tilde['bottom'].node().onblur = tilde.blur
-//tilde['top'].node().onmouseout = tilde.blur
-//tilde['bottom'].node().onmouseout = tilde.blur
-tilde['top'].node().onchange = tilde.change
-tilde['bottom'].node().onchange = tilde.change
+tilde['top'].node().onmouseup = tilde.change
+tilde['bottom'].node().onmouseup = tilde.change
 tilde['top'].node().onkeyup = tilde.parseEnter
 tilde['bottom'].node().onkeyup = tilde.parseEnter
+tilde['top'].node().onchange = tilde.change
+tilde['bottom'].node().onchange = tilde.change
+//tilde['top'].node().onmouseout = tilde.blur
+//tilde['bottom'].node().onmouseout = tilde.blur
 
 d3.selectAll('.tilde-rect, .tilde-input')
 	.on('click',tilde.showInput)
