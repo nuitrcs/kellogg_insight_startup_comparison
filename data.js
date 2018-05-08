@@ -318,8 +318,9 @@ tilde.change = function(e,element) {
          }
          if (target) {
             output = spacing + Math.round(tilde.data[topval][target]/tilde.data[botval][target])
+         } else {
+            output = spacing + Math.round(tilde.data[topval]['proportion'])
          }
-         output = spacing + Math.round(tilde.data[topval]['proportion'])
       }
       return output
    }
