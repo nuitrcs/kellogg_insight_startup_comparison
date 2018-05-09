@@ -248,13 +248,7 @@ tilde.showInput = function(d,i) {
 		var this_id = me.id.substring(5)
 		me = document.getElementById(this_id)
 	}
-	tilde[me.id]
-		.style("display", "inline-block")
-
 	tilde[me.id].node().focus()
-
-	d3.select(me)
-		.style('display','none')
 
 	tilde[me.id + '-shadow']
 		.transition()
@@ -263,9 +257,11 @@ tilde.showInput = function(d,i) {
 }
 
 tilde.focus = function(e) {
-	var stored = this.value
-	this.value = ''
-	this.value = stored
+   var this_id = this.id.substring(6)
+   tilde[this_id + '-shadow']
+      .transition()
+      .duration(100)
+      .style('opacity',0.7)
 }
 
 tilde.blur = function(e,element) {
@@ -274,13 +270,7 @@ tilde.blur = function(e,element) {
       me = element
    }
 
-	d3.select(me)
-		.style('display','none')
-
 	var dd = d3.select(me).data()[0]
-
-	d3.select('#'+dd.id)
-		.style('display','inline-block')
 
 	tilde[dd.id + '-shadow']
 		.transition()
@@ -288,10 +278,6 @@ tilde.blur = function(e,element) {
 		.style('opacity',0)
 
 	tilde.change(null,me)
-}
-
-tilde.hideInput = function(d) {
-	tilde[this.id].node().blur()
 }
 
 tilde.change = function(e,element) {
@@ -314,7 +300,7 @@ tilde.change = function(e,element) {
       if (output.length > 3 || output.length === 2) {
          var spacing = ''
          if (spacing_bool) {
-            spacing = "<tspan style='opacity:0'>.</tspan>"
+            spacing = "<tspan style='opacity:0; visibility:hidden'>.</tspan>"
          }
          if (target) {
             output = spacing + Math.round(tilde.data[topval][target]/tilde.data[botval][target])
@@ -354,7 +340,7 @@ tilde.parseEnter = function(e) {
    var me = this
    var key = e.which || e.keyCode;
    if (key === 13){
-      tilde.blur(null,me)
+      me.blur()
    }
 }
 
@@ -367,17 +353,46 @@ tilde['bottom-shadow'] = d3.select('#bottom-shadow')
 
 tilde['top'].node().onfocus = tilde.focus
 tilde['bottom'].node().onfocus = tilde.focus
+
 tilde['top'].node().onblur = tilde.blur
 tilde['bottom'].node().onblur = tilde.blur
+
 tilde['top'].node().onmouseup = tilde.change
 tilde['bottom'].node().onmouseup = tilde.change
-tilde['top'].node().onkeyup = tilde.parseEnter
-tilde['bottom'].node().onkeyup = tilde.parseEnter
 tilde['top'].node().onchange = tilde.change
 tilde['bottom'].node().onchange = tilde.change
-//tilde['top'].node().onmouseout = tilde.blur
-//tilde['bottom'].node().onmouseout = tilde.blur
 
-d3.selectAll('.tilde-rect, .tilde-input')
-	.on('click',tilde.showInput)
-	.on('mouseover',tilde.showInput)
+tilde['top'].node().onkeyup = tilde.parseEnter
+tilde['bottom'].node().onkeyup = tilde.parseEnter
+
+d3.select('#button-frame')
+   .on('mouseover',function(){
+      d3.select(this).style('opacity','0.2')
+   })
+   .on('mouseout',function(){
+      d3.select(this).style('opacity','0')
+   })
+
+var isChromium = window.chrome;
+var winNav = window.navigator;
+var vendorName = winNav.vendor;
+var isOpera = typeof window.opr !== "undefined";
+var isIEedge = winNav.userAgent.indexOf("Edge") > -1;
+var isIOSChrome = winNav.userAgent.match("CriOS");
+
+if (isIOSChrome) {
+   console.log('Chrome detected! Image output allowed.')
+   d3.select('#button').style('display','inline-block')
+} else if(
+  isChromium !== null &&
+  typeof isChromium !== "undefined" &&
+  vendorName === "Google Inc." &&
+  isOpera === false &&
+  isIEedge === false
+) {
+   console.log('Chrome detected! Image output allowed.')
+   d3.select('#button').style('display','inline-block')
+} else { 
+   console.error('Interactive output disabled outside of Chrome.')
+}
+

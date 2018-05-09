@@ -7,47 +7,38 @@
 		<link rel="icon" href="data/favicon.PNG" type="image/png" />
 	</head>
 	<style>
-		input {
-			display:none;
-			border:none;
-			text-align:center;
-			height:auto;
-			font-size: 100px;
-			width:134px;
-			padding:0;
-			background:none;
-			color:white;
-		}
-		.tilde-rect:hover {
-			cursor:text;
+		#button:hover {
+			cursor:pointer;
 		}
 	</style>
 
 	<body>
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 1000" id='startup_graphic'>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 1000" id='startup-compare-tool'>
 			<g id="background">
 				<rect width="650" height="1000" style="fill: #072c47"/>
 			</g>
 			<g id="boxes">
 				<rect class='shadow' id='top-shadow' x="269" y="93" width="134" height="114" style="fill: #202121; opacity:0"/>
-				<rect class='shadow' id='bottom-shadow' x="269" y="620" width="134" height="114" style="fill: #202121; opacity:0"/>
+				<rect class='shadow' id='bottom-shadow' x="269" y="590" width="134" height="114" style="fill: #202121; opacity:0"/>
 				<rect id='rect-top' class='tilde-rect' x="258" y="82" width="134" height="114" style="fill: #0c4866"/>
-				<rect id='rect-bottom' class='tilde-rect' x="258" y="609" width="134" height="114" style="fill: #0c4866"/>
+				<rect id='rect-bottom' class='tilde-rect' x="258" y="579" width="134" height="114" style="fill: #0c4866"/>
 			</g>
-			<g id="button">
+			<g id="button" style='display:none'>
 				<g>
 					<circle cx="604.3" cy="641.2" r="13.2" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 5px"/>
 					<circle cx="550.25" cy="672.62" r="13.2" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 5px"/>
 					<circle cx="604.3" cy="705.3" r="13.2" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 5px"/>
 					<line x1="592.99" y1="647.48" x2="561.57" y2="666.34" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 5px"/>
 					<line x1="561.57" y1="678.91" x2="592.99" y2="697.76" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 5px"/>
+					<rect id='button-frame' x='530' y='620' width='97' height='106' style='fill:white;stroke-width:0px;opacity:0'/>
 				</g>
 			</g>
 			<g id="mass_text">
-				<text transform="translate(309.83 268.07)" style="font-size: 42px;fill: #fff;font-family: ArialMT, Arial">is</text>
-				<text transform="translate(158.08 445.07)" style="font-size: 42px;fill: #fff;font-family: ArialMT, Arial">as likely to have a <tspan x="-29.16" y="50.4">successful startup as</tspan></text>
+				<text transform="translate(309.83 258.07)" style="font-size: 42px;fill: #fff;font-family: ArialMT, Arial">is</text>
+				<text transform="translate(158.08 435.07)" style="font-size: 42px;fill: #fff;font-family: ArialMT, Arial">as likely to have a <tspan x="-29.16" y="50.4">successful startup as</tspan></text>
 				<text transform="translate(201.24 70.32)" style="font-size: 42px;fill: #fff;font-family: ArialMT, Arial"><tspan style="letter-spacing: -0.05517578125em">A</tspan><tspan x="25.7" y="0" xml:space="preserve"> person age</tspan></text>
-				<text transform="translate(196.56 595.07)" style="font-size: 42px;fill: #fff;font-family: ArialMT, Arial"><tspan xml:space="preserve" style="letter-spacing: -0.05517578125em"> A</tspan><tspan x="35.05" y="0" xml:space="preserve"> person age</tspan></text>
+				<text transform="translate(196.56 565.07)" style="font-size: 42px;fill: #fff;font-family: ArialMT, Arial"><tspan xml:space="preserve" style="letter-spacing: -0.05517578125em"> A</tspan><tspan x="35.05" y="0" xml:space="preserve"> person age</tspan></text>
+				<text id='suggestion' transform="translate(165 720)" style="font-size: 20px;fill: #fff;font-family: ArialMT, Arial;font-style: italic;opacity:0.7">(Try interacting above to see more!)</text>
 
 				<text transform="translate(34 780)" style="font-size: 28px;fill: #fff;font-family: ArialMT, Arial;font-style: italic;opacity:0.9"><tspan class='top-age' style='font-weight: bold'>40</tspan><tspan> year olds make up </tspan><tspan id='top-prop' style='font-weight: bold'>3.0</tspan><tspan>% of startup founders,</tspan></text>
 				<text transform="translate(115 820)" style="font-size: 28px;fill: #fff;font-family: ArialMT, Arial;font-style: italic;opacity:0.9">while <tspan class='bottom-age' style='font-weight: bold'>25</tspan><tspan> year olds make up </tspan><tspan id='bottom-prop' style='font-weight: bold'>1.7</tspan><tspan>%.</tspan></text>
@@ -58,23 +49,17 @@
 				<text transform="translate(115 980)" style="font-size: 20px;fill: #fff;font-family: ArialMT, Arial;font-style: italic;opacity:0.7"><tspan x="0" y="0" xml:space="preserve">Interactive: Frank Elavsky, Research Computing</tspan></text>
 
 			</g>
-			<g transform="translate(269.63 700.35)">
-				<text id="bottom" class='tilde-input' style="font-size: 100px;fill: #fff;font-family: ArialMT, Arial">25</text>
-			</g>
 			<g>
-				<text transform="translate(178.09 396.72)" style="font-size: 170px;fill: #fff;font-family: Arial-BoldMT, Arial"><tspan id="value" style="font-weight: 700">2.1</tspan><tspan x="236.32" y="0" style="font-size: 115px;font-family: ArialMT, Arial">x</tspan></text>
+				<text transform="translate(178.09 386.72)" style="font-size: 170px;fill: #fff;font-family: Arial-BoldMT, Arial"><tspan id="value" style="font-weight: 700">2.1</tspan><tspan x="236.32" y="0" style="font-size: 115px;font-family: ArialMT, Arial">x</tspan></text>
 			</g>
-			<g transform="translate(269.38 174.22)">
-				<text id="top" class='tilde-input' style="font-size: 100px;fill: #fff;font-family: ArialMT, Arial">40</text>
-			</g>
-			<foreignObject transform="translate(258 82)">
+			<foreignObject transform="translate(258 82)" width='134' height='114' class=''>
 				<div xmlns="http://www.w3.org/1999/xhtml">
-					<input id='input-top' type='number' min='20' max='65' value='40'>
+					<input id='input-top' type='number' min='20' max='65' value='40' style='font-family: Arial-BoldMT, Arial;border:none;text-align:center;height:auto;font-size: 100px;width:134px;padding:0;background:none;color:white'>
 				</div>
 			</foreignObject>
-			<foreignObject transform="translate(258 609)">
+			<foreignObject transform="translate(258 579)" width='134' height='114' class=''>
 				<div xmlns="http://www.w3.org/1999/xhtml">
-					<input id='input-bottom' type='number' min='20' max='65' value='25'>
+					<input id='input-bottom' type='number' min='20' max='65' value='25' style='font-family: Arial-BoldMT, Arial;border:none;text-align:center;height:auto;font-size: 100px;width:134px;padding:0;background:none;color:white'>
 				</div>
 			</foreignObject>
 		</svg>
